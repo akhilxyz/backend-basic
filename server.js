@@ -3,6 +3,11 @@ const app = express();
 const bodyParser = require('body-parser');
 const port = process.env.port || 3000;
 
+const mongoose  = require("mongoose");
+mongoose.Promise = Promise;
+
+mongoose.connect("mongodb://localhost:27017/test_database")
+
 app.use(express.json());
 app.use(bodyParser.json());
 

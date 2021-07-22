@@ -5,7 +5,7 @@ const router = require('express').Router()
 
 router.use('/states/', require("./states")) ;
 router.use('/date/', require("./date")) ;
-
+router.use('/user/', require("./user")) ;
 
 //not found checker
 router.use((req, res, next) => {

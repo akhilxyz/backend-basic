@@ -13,7 +13,7 @@ const DateFomatter = (type) => {
         return res
     }
     else {
-        return null;
+        throw new Error(`Invalid Date Format ! Avilable formats are - ${format}`)
     }
 }
 

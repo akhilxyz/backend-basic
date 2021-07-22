@@ -19,12 +19,9 @@ const addDate = async (req, res, next) => {
         let props = req.body.format
         if (!props) throw new Error("Please Provide Date Type");
         const format = dateFormatter(props)
-        if (format === null) {
-            req.message = "Invalid Format"
-        }
-        else {
-            req.data = format;
-        }
+        
+        req.data = format;
+        
         next()
     }
     catch (e) {
