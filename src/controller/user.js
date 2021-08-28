@@ -1,9 +1,8 @@
 
 const userModal = require('../core/usecases/user')
-const fs = require("fs");
 
 const getUser = async () => {
-    let userData = userModal.getUser();
+    let userData = await userModal.getUser();
     return userData ;
 }
 
@@ -14,7 +13,8 @@ const addUser = async (user) => {
         phone : user.phone,
         address : user.address,
         gender : user.gender ,
-        password : user.password
+        password : user.password,
+        role : user.role,
     }
     let saveUser = await userModal.addUser(userData);
     return saveUser ;

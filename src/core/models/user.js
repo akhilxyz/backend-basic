@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
   gender:{ type: String, required: [true,"User Gender is Required"] },
   password:{ type: String, required: [true,"User Password is Required"] },
   address:{ type: String, default: null},
+  role : {type : Number , default : 0},
   profile_pic:{ type: String, default:null },
   created_on: {type: Date, default: Date.now},
   modified_on: {type: Date, default: Date.now}

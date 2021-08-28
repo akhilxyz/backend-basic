@@ -1,10 +1,8 @@
 "use strict";
 const router = require('express').Router()
 
-// ******************** Routes *************************
+// All the Given Routes Will define Here 
 
-router.use('/states/', require("./states")) ;
-router.use('/date/', require("./date")) ;
 router.use('/user/', require("./user")) ;
 
 //not found checker
@@ -31,7 +29,6 @@ router.use((error, req, res, next) => {
     const status = req.status || 500
     res.status(status).send({ success: false, message, data: null })
 })
-
 
 
 module.exports = router;
