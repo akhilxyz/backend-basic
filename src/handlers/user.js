@@ -73,7 +73,7 @@ const updateUser = async (req, res, next) => {
 const deleteUser = async (req, res, next) => {
     try {
         if (!req.body.id) throw new Error("Please Provide User id");
-        let data = await .deleteUser(req.body.id)
+        let data = await userController.deleteUser(req.body.id)
         req.data = data
         next()
     }
