@@ -73,7 +73,7 @@ const updateUser = async (req, res, next) => {
 const deleteUser = async (req, res, next) => {
     try {
         if (!req.body.id) throw new Error("Please Provide User id");
-        let data = await userController.deleteUser(req.body.id)
+        let data = await .deleteUser(req.body.id)
         req.data = data
         next()
     }
@@ -84,14 +84,19 @@ const deleteUser = async (req, res, next) => {
 }
 
 const loginUser = async (req, res, next) => {
-    const { email , password} = req.body
-    try {if (!email) throw new Error("Please Provide Email");
-        else if (!password) throw new Error("Please Provide Password");
-        let data = await userController.loginUser(req.body)
-        req.data = data
+    if (!req.body.email) return next(new Error("Please Provide email"))
+    if (!req.body.password) return next(new Error("Please Provide Password"))
+    let filter = { email: req.body.email, password: req.body.password };
+    try {
+        let rep = await userController.loginUser(filter)
+        if (rep.Error) {
+            req.data = null;
+            req.status = 403;
+            return next(new Error(rep.Error));
+        }
+        req.data = rep
         next()
-    }
-    catch (e) {
+    } catch (e) {
         req.status = 400;
         next(e)
     }

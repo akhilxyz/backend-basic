@@ -8,11 +8,11 @@ const getUser = async () => {
     if (data.length > 0) {
         data = data.map((user) => {
             let userData = {id : user._id, name : user.name, email : user.email, 
-                        gender: user.gender, address: user.address, role: user.role,}
+                           gender: user.gender, address: user.address, role: user.role }
             return userData ;
         })
     }
-    return data ;
+    return userData ;
 }
 
 // Add New User
