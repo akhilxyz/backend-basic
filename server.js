@@ -1,22 +1,9 @@
 const express = require("express");
 const app = express();
-const mongoose  = require("mongoose");
-require('dotenv').config();
-
-// connection to database 
 const port = process.env.Port || 3000;
-const DB = process.env.DB_URL
-
-// You can connect to MongoDB with the mongoose.connect() method.
-
-mongoose.connect(DB, {
-  useNewUrlParser : true,
-  useCreateIndex : true,
-  useUnifiedTopology : true,
-  useFindAndModify : false
-}).then(() => {
-    console.log("Connected Successfully")
-}).catch ((err) =>  console.log("Error :", err))
+require('dotenv').config();
+// connecting Server to the database
+require("./src/db/database").connect();
 
 // The app.use() function is used to mount the specified middleware function(s) at the path 
 // which is being specified. It is mostly used to set up middleware for your application.

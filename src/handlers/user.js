@@ -16,7 +16,8 @@ const getUser = async (req, res, next) => {
     }
 }
 
-//user Handler to Handle ADD request of user
+//user Handler to Handle ADD request of user it will validate data from req.body 
+//and check if data is incoreected than it will throw error
 
 const addUser = async (req, res, next) => {
     const { name, email, phone, gender, address, password, role, token} = req.body
@@ -46,10 +47,8 @@ const addUser = async (req, res, next) => {
 //user Handler to Handle UPDATE request of user
 
 const updateUser = async (req, res, next) => {
-
-    const { id, name, email, phone, gender, address, password } = req.body
+    const { id, name, email, phone, gender, address, password, token} = req.body
     let filter = {}
-
     try {
         if (!id) throw new Error("Please Provide User id");
         if (name) { if (!validator.isName(name)) throw new Error("Invalid User Name"); filter.name = name; }
@@ -58,6 +57,7 @@ const updateUser = async (req, res, next) => {
         if (gender) { if (!validator.isGender(gender)) throw new Error("Invalid Gender"); filter.gender = gender;}
         if (address) { if (!validator.isAddress(address)) throw new Error("Invalid Address"); filter.address = address;}
         if (password) { if (!validator.isPassword(password)) throw new Error("Password length should be more than 5 characters"); filter.password = password;}
+        if (role) { if (token !== `${process.env.Token}`) throw new Error("Unauthorized Access to role");filter.role = role; }
         let data = await userController.updateUser(id , filter)
         req.data = data
         next()
@@ -83,4 +83,18 @@ const deleteUser = async (req, res, next) => {
     }
 }
 
-module.exports = { getUser, addUser, updateUser, deleteUser }
+const loginUser = async (req, res, next) => {
+    const { email , password} = req.body
+    try {if (!email) throw new Error("Please Provide Email");
+        else if (!password) throw new Error("Please Provide Password");
+        let data = await userController.loginUser(req.body)
+        req.data = data
+        next()
+    }
+    catch (e) {
+        req.status = 400;
+        next(e)
+    }
+}
+
+module.exports = { getUser, addUser, updateUser,  deleteUser, loginUser }
