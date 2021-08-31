@@ -1,4 +1,4 @@
-const model = require("../../models/user");
+const model = require("../models/user");
 const mongoose = require("mongoose");
 
 // add User in database by using modal.save() function
@@ -38,5 +38,11 @@ const deleteUser = async (userId) => {
   else{ return {Error: "Something went wrong!!!"} }
 }
 
+// The findOne() function is used to find one document according to the condition. If multiple documents match the condition, 
+// then it returns the first document satisfying the condition.
+const getUserProfile = async(filters) => {
+  return await model.findOne(filters).exec()
+}
+
 // exporting all the functions 
-module.exports = { addUser, getUser , updateUser, deleteUser }
+module.exports = { addUser, getUser , updateUser, deleteUser , getUserProfile}

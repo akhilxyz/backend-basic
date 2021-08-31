@@ -8,11 +8,11 @@ const getUser = async () => {
     let data = await userModal.getUser();
     let userData = []
     if (data.length > 0) {
-         data = data.map((user) => {
+        data = data.map((user) => {
             let data = { id : user._id, name : user.name, email : user.email, 
                         gender: user.gender, address: user.address, role: user.role }
-            userData.push(data) ;
-        })
+                userData.push(data) ;
+            })
         return userData ;
     }
     else return userData ;
@@ -22,7 +22,7 @@ const getUser = async () => {
 const addUser = async (user) => {
     // checking user email is registered or not 
     let userRecord = await userModal.getUser({ email: user.email});
-    if (userRecord.length == 0) return { Error: "Email is already registered" }
+    if (userRecord.length > 0) return { Error: "Email is already registered" }
     // bcrypt store the pasword in hashing
     // Per bcrypt implementation, only the first 72 bytes of a string are used. 
     // Any extra bytes are ignored when matching passwords. Note that this is not the first 72 characters.
@@ -64,5 +64,13 @@ const loginUser = async (userData) => {
     return userRecord ;
 }
 
+// get user profile information 
+const getUserProfile = async(userprops) => {
+    let filter = {}
+    if (userprops.id) filter._id = userprops.id;
+    let userData = await userModal.getUserProfile(filter);
+    return userData ;
+}
 
-module.exports = {getUser, addUser, deleteUser, updateUser, loginUser}
+
+module.exports = {getUser, addUser, deleteUser, updateUser, loginUser , getUserProfile}

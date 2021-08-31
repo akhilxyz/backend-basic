@@ -17,7 +17,7 @@ const getUser = async (req, res, next) => {
 }
 
 //user Handler to Handle ADD request of user it will validate data from req.body 
-//and check if data is incoreected than it will throw error
+//and check if data is incoreected then it will throw error
 
 const addUser = async (req, res, next) => {
     const { name, email, phone, gender, address, password, role, token} = req.body
@@ -26,7 +26,7 @@ const addUser = async (req, res, next) => {
         else if (!email) throw new Error("Please Provide User Email");
         else if (!validator.isEmail(email)) throw new Error("Invalid Email Address");
         else if (!phone) throw new Error("Please Provide User Phone number");
-        else if (!validator.isPhonenumber(phone)) throw new Error("Please Provide User Phone number");
+        else if (!validator.isPhonenumber(phone)) throw new Error("Invalid Phone number");
         else if (!gender) throw new Error("Please Provide User Gender");
         else if (!validator.isGender(gender)) throw new Error("Invalid Gender Name");
         else if (!address) throw new Error("Please Provide User Address");
@@ -105,4 +105,17 @@ const loginUser = async (req, res, next) => {
 }
 
 
-module.exports = { getUser, addUser, updateUser,  deleteUser, loginUser}
+const getUserProfile = async(req, res, next) => {
+    try {
+        let filter = { id: req.userId }
+        let userData = await userController.getUserProfile(filter)
+        req.data = userData
+        next()
+    } catch (e) {
+        req.status = 400;
+        next(e)
+    }
+}
+
+
+module.exports = { getUser, addUser, updateUser,  deleteUser, loginUser, getUserProfile}
