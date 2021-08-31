@@ -47,7 +47,7 @@ const addUser = async (req, res, next) => {
 //user Handler to Handle UPDATE request of user
 
 const updateUser = async (req, res, next) => {
-    const { id, name, email, phone, gender, address, password, token} = req.body
+    const { id, name, email, phone, gender, address, password, role, token} = req.body
     let filter = {}
     try {
         if (!id) throw new Error("Please Provide User id");
@@ -83,9 +83,11 @@ const deleteUser = async (req, res, next) => {
     }
 }
 
+//user Handler to Handle Login request of user
+
 const loginUser = async (req, res, next) => {
-    if (!req.body.email) return next(new Error("Please Provide email"))
-    if (!req.body.password) return next(new Error("Please Provide Password"))
+    if (!req.body.email) return next(new Error("Please Provide email"));
+    if (!req.body.password) return next(new Error("Please Provide Password"));
     let filter = { email: req.body.email, password: req.body.password };
     try {
         let rep = await userController.loginUser(filter)
@@ -102,4 +104,5 @@ const loginUser = async (req, res, next) => {
     }
 }
 
-module.exports = { getUser, addUser, updateUser,  deleteUser, loginUser }
+
+module.exports = { getUser, addUser, updateUser,  deleteUser, loginUser}

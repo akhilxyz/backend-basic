@@ -4,6 +4,8 @@ const router = require('express').Router()
 // All the Given Routes Will define Here 
 
 router.use('/user/', require("./user")) ;
+// router.use('/user/', require("./user")) ;
+
 
 //not found checker
 router.use((req, res, next) => {
