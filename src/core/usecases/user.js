@@ -1,10 +1,8 @@
 const model = require("../models/user");
-const mongoose = require("mongoose");
 
 // add User in database by using modal.save() function
 //The save() function is used to save the document to the database. Using this function, new documents can be added to the database.
 const addUser = async (user) => {
-  user._id = new mongoose.Types.ObjectId();
   return (await new model(user).save()).toObject();
 }
 

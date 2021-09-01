@@ -8,7 +8,6 @@ router.use('/gallery/', require("./gallery")) ;
 router.use('/post/', require("./post")) ;
 
 
-
 //not found checker
 router.use((req, res, next) => {
     //req.route gets initialized if path gets matched

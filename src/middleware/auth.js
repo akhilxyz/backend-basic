@@ -5,14 +5,10 @@ module.exports = (req, res, next) => {
         const token = req.query['x-access-token'] || req.headers['x-access-token']
         if(!token)  res.status(403).send({success: false, message: "No token Provided"});
         const decoded = jwt.verify(token, "secret");
-
         let userData = {
-            Id:decoded.Id,
-            Name:decoded.Name,
-            Phone:decoded.Phone,
-            Email:decoded.Email,
-            Company:decoded.Company,
-            Profile_pic:decoded.Profile_pic
+            Id:decoded.userId,
+            Name:decoded.userName,
+            Email:decoded.userEmail,
         }
         req.userData = userData;
 

@@ -4,7 +4,6 @@ const mongoose = require('mongoose')
 // and defines the shape of the documents within that collection.
 
 const userSchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
   name:{ type: String, required: [true,"User Name is Required"] },
   email:{ type: String, required: [true,"User Email is Required"] , },
   phone:{ type: String, required: [true,"User Phone Number is Required"] },
@@ -14,7 +13,6 @@ const userSchema = new mongoose.Schema({
   role : {type : Number , default : 0},
   profile_pic:{ type: String, default:null },
   created_on: {type: Date, default: Date.now},
-  modified_on: {type: Date, default: Date.now}
 });
 
 module.exports = mongoose.model('User', userSchema)

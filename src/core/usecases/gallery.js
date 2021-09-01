@@ -1,10 +1,8 @@
 const model = require("../models/gallery");
-const mongoose = require("mongoose");
 
 // add Image in database by using modal.save() function
 // The save() function is used to save the document to the database. Using this function, new documents can be added to the database.
 const addGallery = async (img) => {
-  img._id = new mongoose.Types.ObjectId();
   return (await new model(img).save()).toObject();
 }
 

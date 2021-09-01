@@ -57,7 +57,7 @@ const loginUser = async (userData) => {
 
     // jwt.sign(payload, secretOrPrivateKey, [options, callback])
     // (Asynchronous) If a callback is supplied, the callback is called with the err or the JWT.
-    const token = jwt.sign({ userId: userRecord[0]._id },"secret", { expiresIn:(86400*30) });
+    const token = jwt.sign({ userId: userRecord[0]._id ,userName : userRecord[0].name , userEmail :  userRecord[0].email },"secret", { expiresIn:(86400*30) });
 
     // if email and password is valid then it will returns user information with token
     userRecord = { token: token, user: userRecord[0]}

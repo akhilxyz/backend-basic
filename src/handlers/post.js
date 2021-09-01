@@ -1,3 +1,4 @@
+const { ConnectionStates } = require("mongoose");
 const postController = require("../controller/post")
 require('dotenv').config();
 
@@ -10,7 +11,7 @@ const getPost = async (req, res, next) => {
         filter.limit = 1000;
         if (req.body.skip) filter.skip = req.body.skip;
         if (req.body.limit) filter.limit = req.body.limit;
-        let data = await postController.getPost(filter)
+        const data = await postController.getPost(filter)
         req.data = data
         next()
     }
@@ -29,7 +30,7 @@ const addPost = async (req, res, next) => {
         else if (!image) throw new Error("Please Provide Post image link");
         else if (!author) throw new Error("Please Provide Post Author");
         else if (!body) throw new Error("Please Provide Post Body");
-        let data = await postController.addPost(req.body);
+        const data = await postController.addPost(req.body);
         req.data = data ;
         next()
     }
@@ -45,13 +46,13 @@ const updatePost = async (req, res, next) => {
     const {id, title , image , author, body, feeds } = req.body
     let filter = {}
     try {
-        if (!id) throw new Error("Please Provide image id");
+        if (!id) throw new Error("Please Provide Post id");
         if (title)  filter.title = title; 
         if (image)  filter.image = image; 
         if (author)  filter.author = author; 
         if (body)  filter.body = body; 
         if (feeds)  filter.feeds = feeds; 
-        let data = await postController.updatePost(id , filter)
+        const data = await postController.updatePost(id , filter)
         req.data = data
         next()
     }
@@ -65,8 +66,8 @@ const updatePost = async (req, res, next) => {
 
 const  deletePost = async (req, res, next) => {
     try {
-        if (!req.body.id) throw new Error("Please Provide image id");
-        let data = await postController.deletePost(req.body.id)
+        if (!req.body.id) throw new Error("Please Provide Post id");
+        const data = await postController.deletePost(req.body.id)
         req.data = data 
         next()
     }
@@ -76,4 +77,73 @@ const  deletePost = async (req, res, next) => {
     }
 }
 
-module.exports = {getPost , addPost , updatePost,  deletePost }
+// Handler to Handle Like Post request from user
+
+const likePost = async (req, res, next) => {
+    let filter = {}
+    if (req.userData.Id) filter.id = req.userData.Id ;
+    try {if (!filter.id) throw new Error("Please login first");
+        else if(!req.body.id)  throw new Error("Please Provide post id");
+        const data = await postController.likePost(filter.id , req.body.id);
+        req.data = data ;
+        next()
+    }
+    catch (e) {
+        req.status = 400;
+        next(e)
+    }
+}
+
+// Handler to Handle Unkike Post request from user
+
+const unlikePost = async (req, res, next) => {
+    let filter = {}
+    if (req.userData.Id) filter.id = req.userData.Id ;
+    try {if (!filter.id) throw new Error("Please login first");
+        else if(!req.body.id)  throw new Error("Please Provide post id");
+        const data = await postController.unlikePost(filter.id , req.body.id);
+        req.data = data ;
+        next()
+    }
+    catch (e) {
+        req.status = 400;
+        next(e)
+    }
+}
+
+// Handler to Handle commentPost to comment on post
+
+const commentPost = async (req, res, next) => {
+    try {
+        if (!req.userData.Id) throw new Error("Please login first");
+        else if (!req.body.id) throw new Error("Please Enter Post Id");
+        else if (!req.body.comment) throw new Error("Please Enter Comment");
+        const userData = {comment : req.body.comment ,  posted_by : req.userData.Id}
+        const data = await postController.commentPost(req.body.id , userData);
+        req.data = data;
+        next()
+    }
+    catch (e) {
+        req.status = 400;
+        next(e)
+    }
+}
+
+
+const deleteComment = async (req, res, next) => {
+    try {
+        if (!req.userData.Id) throw new Error("Please login first");
+        else if (!req.body.post_id) throw new Error("Please Enter Post Id");
+        else if (!req.body.comment_id) throw new Error("Please Enter Post Id");
+        const userData = {comment_id : req.body.comment_id ,  posted_by : req.userData.Id}
+        const data = await postController.deleteComment(req.body.post_id , userData);
+        req.data = data;
+        next()
+    }
+    catch (e) {
+        req.status = 400;
+        next(e)
+    }
+}
+
+module.exports = {getPost , addPost , updatePost,  deletePost ,likePost ,unlikePost, commentPost , deleteComment}

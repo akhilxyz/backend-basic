@@ -6,8 +6,8 @@ const getGallery = async (imgprops) => {
     let imageData = [] ;
     if (data.length > 0) {
         data = data.map((img) => {
-            let data = { id : img._id, src : img.src, desc : img.desc , alt : img.alt}
-            imageData.push(data) ;
+            let formatData = { id : img._id, src : img.src, desc : img.desc , alt : img.alt}
+            imageData.push(formatData) ;
             })
         return imageData ;
     }
